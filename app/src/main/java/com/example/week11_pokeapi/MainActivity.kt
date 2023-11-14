@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val pokeApiClient = PokeApiClient.getInstance()
-        val response = pokeApiClient.getPokemonList(5, 0)
+        val response = pokeApiClient.getPokemonList(20, 0)
 
         response.enqueue(object : Callback<NamedApiResourceList> {
             override fun onResponse(

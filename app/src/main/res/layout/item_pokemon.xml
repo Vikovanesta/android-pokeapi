@@ -3,38 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/iv_pokemon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/baseline_catching_pokemon_24"
-        android:contentDescription="Icon Mahasiswa" />
-
     <LinearLayout
-        android:layout_width="220dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:orientation="vertical" >
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/txt_pokemon_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/k2d_bold"
-            android:text="Pikachu"
-            android:textSize="24sp" />
+        <ImageView
+            android:id="@+id/iv_pokemon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/baseline_catching_pokemon_24"
+            android:contentDescription="Icon Mahasiswa" />
 
-        <TextView
-            android:id="@+id/txt_ipk"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/k2d"
-            android:text="4.0"
-            android:textSize="20dp" />
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txt_pokemon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/k2d_bold"
+                android:text="Crabominable"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txt_pokemon_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/k2d"
+                android:text="#0025"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_type_1"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:background="@drawable/bg_rounded_10"
+            android:backgroundTint="@color/electric"
+            android:text="Electric"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/txt_type_2"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:background="@drawable/bg_rounded_10"
+            android:backgroundTint="@color/electric"
+            android:text="Electric"
+            android:textAlignment="center"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
