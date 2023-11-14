@@ -24,6 +24,8 @@ object PokeApiClient {
             .addConverterFactory(GsonConverterFactory.create(
                 GsonBuilder().apply {
                     setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    // Custom adapter buat ApiResource + NamedApiResource
+                    // Buat deserealize dari JSON ke model + inisialisasi model
                     registerTypeAdapter(
                         TypeToken.get(ApiResource::class.java).type,
                         ApiResourceAdapter()

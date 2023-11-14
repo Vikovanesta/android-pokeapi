@@ -3,6 +3,7 @@ package com.example.week11_pokeapi.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.week11_pokeapi.databinding.ItemPokemonBinding
 import com.example.week11_pokeapi.model.Pokemon
 
@@ -17,10 +18,11 @@ class ItemPokemonAdapter (private val onClickPokemon: OnClickPokemon) :
 
             fun bind(pokemon: Pokemon) {
                 binding.apply {
-                    txtPokemonName.text = pokemon.name
-    //                Glide.with(itemView.context)
-    //                    .load(pokemon.sprites.frontDefault)
-    //                    .into(ivPokemon)
+                    txtPokemonName.text = pokemon.name.replaceFirstChar(Char::titlecase)
+
+                    Glide.with(itemView.context)
+                        .load(pokemon.sprites.other.officialArtwork.frontDefault)
+                        .into(ivPokemon)
 
                     root.setOnClickListener { onClickPokemon(pokemon) }
                 }
