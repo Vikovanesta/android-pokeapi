@@ -23,6 +23,7 @@ object PokeApiClient {
             .baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create(
                 GsonBuilder().apply {
+                    setPrettyPrinting()
                     setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     // Custom adapter buat ApiResource + NamedApiResource
                     // Buat deserealize dari JSON ke model + inisialisasi model

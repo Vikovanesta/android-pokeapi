@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/pokedexFragment">
+
+    <fragment
+        android:id="@+id/pokedexFragment"
+        android:name="com.example.week11_pokeapi.ui.fragments.PokedexFragment"
+        android:label="fragment_pokedex"
+        tools:layout="@layout/fragment_pokedex" />
+    <fragment
+        android:id="@+id/teamBuilderFragment"
+        android:name="com.example.week11_pokeapi.ui.fragments.TeamBuilderFragment"
+        android:label="fragment_team_builder"
+        tools:layout="@layout/fragment_team_builder" />
+</navigation>
