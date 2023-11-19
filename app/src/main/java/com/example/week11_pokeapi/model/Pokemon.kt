@@ -1,9 +1,16 @@
 package com.example.week11_pokeapi.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "pokemons")
 data class Pokemon(
-    val id: Int,
+    @PrimaryKey val id: Int,
+    val teamId: Int,
     val name: String,
     val baseExperience: Int,
     val order: Int,
@@ -11,20 +18,57 @@ data class Pokemon(
     val weight: Int,
     val locationAreaEncounters: String,
     val isDefault: Boolean,
-    val abilities: List<PokemonAbility>,
-    val forms: List<NamedApiResource>,
-    val gameIndices: List<VersionGameIndex>,
-    val heldItems: List<PokemonHeldItem>,
-    val moves: List<PokemonMove>,
-    val pastTypes: List<PokemonTypePast>,
-    val sprites: PokemonSprites,
-    val species: NamedApiResource,
-    val stats: List<PokemonStat>,
-    val types: List<PokemonType>,
-)
+    @Ignore val abilities: List<PokemonAbility>,
+    @Ignore val forms: List<NamedApiResource>,
+    @Ignore val gameIndices: List<VersionGameIndex>,
+    @Ignore val heldItems: List<PokemonHeldItem>,
+    @Ignore val moves: List<PokemonMove>,
+    @Ignore val pastTypes: List<PokemonTypePast>,
+    @Embedded(prefix = "sprites") val sprites: PokemonSprites,
+    @Embedded(prefix = "species") val species: NamedApiResource,
+    @Ignore val stats: List<PokemonStat>,
+    @Ignore val types: List<PokemonType>,
+) {
+    constructor(
+        id: Int,
+        teamId: Int,
+        name: String,
+        baseExperience: Int,
+        order: Int,
+        height: Int,
+        weight: Int,
+        locationAreaEncounters: String,
+        isDefault: Boolean,
+        sprites: PokemonSprites,
+        species: NamedApiResource
+    ) : this(
+        id,
+        teamId,
+        name,
+        baseExperience,
+        order,
+        height,
+        weight,
+        locationAreaEncounters,
+        isDefault,
+        emptyList(),
+        emptyList(),
+        emptyList(),
+        emptyList(),
+        emptyList(),
+        emptyList(),
+        sprites,
+        species,
+        emptyList(),
+        emptyList()
+    )
+}
 
+@Entity(tableName = "pokemon_abilities")
 data class PokemonAbility(
-    val ability: NamedApiResource,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val pokemonId: Int,
+    @Embedded val ability: NamedApiResource,
     val isHidden: Boolean,
     val slot: Int
 )
@@ -75,15 +119,15 @@ data class  PokemonSprites(
     val frontFemale: String?,
     val frontShiny: String?,
     val frontShinyFemale: String?,
-    val other: PokemonSpritesOther
+    @Embedded("other") val other: PokemonSpritesOther
 )
 
 data class PokemonSpritesOther(
     @SerializedName("official-artwork")
-    val officialArtwork: PokemonSpritesOfficialArtwork,
-    val dreamWorld: PokemonSpritesDreamWorld,
-    val home: PokemonSpritesHome,
-    val versions: PokemonSpritesVersions
+    @Embedded(prefix = "official_artwork") val officialArtwork: PokemonSpritesOfficialArtwork,
+    @Embedded(prefix = "dream_world") val dreamWorld: PokemonSpritesDreamWorld,
+    @Embedded(prefix = "home") val home: PokemonSpritesHome,
+    @Embedded(prefix = "versions") val versions: PokemonSpritesVersions
 )
 
 data class PokemonSpritesOfficialArtwork(
@@ -104,28 +148,28 @@ data class PokemonSpritesHome(
 )
 
 data class PokemonSpritesVersions(
-    @SerializedName("generation-i")
+    @SerializedName("generation-i") @Embedded(prefix = "generation_I")
     val generationI: PokemonSpritesGenerationI,
-    @SerializedName("generation-ii")
+    @SerializedName("generation-ii") @Embedded(prefix = "generation_II")
     val generationII: PokemonSpritesGenerationII,
-    @SerializedName("generation-iii")
+    @SerializedName("generation-iii") @Embedded(prefix = "generation_III")
     val generationIII: PokemonSpritesGenerationIII,
-    @SerializedName("generation-iv")
+    @SerializedName("generation-iv") @Embedded(prefix = "generation_IV")
     val generationIV: PokemonSpritesGenerationIV,
-    @SerializedName("generation-v")
+    @SerializedName("generation-v") @Embedded(prefix = "generation_V")
     val generationV: PokemonSpritesGenerationV,
-    @SerializedName("generation-vi")
+    @SerializedName("generation-vi") @Embedded(prefix = "generation_VI")
     val generationVI: PokemonSpritesGenerationVI,
-    @SerializedName("generation-vii")
+    @SerializedName("generation-vii") @Embedded(prefix = "generation_VII")
     val generationVII: PokemonSpritesGenerationVII,
-    @SerializedName("generation-viii")
+    @SerializedName("generation-viii") @Embedded(prefix = "generation_VIII")
     val generationVIII: PokemonSpritesGenerationVIII
 )
 
 data class PokemonSpritesGenerationI(
-    @SerializedName("red-blue")
+    @SerializedName("red-blue") @Embedded(prefix = "red_blue")
     val redBlue: PokemonSpritesRBY,
-    val yellow: PokemonSpritesRBY
+    @Embedded(prefix = "yellow") val yellow: PokemonSpritesRBY
 )
 
 data class PokemonSpritesRBY(
@@ -138,9 +182,9 @@ data class PokemonSpritesRBY(
 )
 
 data class PokemonSpritesGenerationII(
-    val crystal: PokemonSpritesCrystal,
-    val gold: PokemonSpritesGoldSilver,
-    val silver: PokemonSpritesGoldSilver
+    @Embedded(prefix = "crystal") val crystal: PokemonSpritesCrystal,
+    @Embedded(prefix = "gold") val gold: PokemonSpritesGoldSilver,
+    @Embedded(prefix = "silver") val silver: PokemonSpritesGoldSilver
 )
 
 data class PokemonSpritesCrystal(
@@ -163,10 +207,10 @@ data class PokemonSpritesGoldSilver(
 )
 
 data class PokemonSpritesGenerationIII(
-    val emerald: PokemonSpritesEmerald,
-    @SerializedName("firered-leafgreen")
+    @Embedded(prefix = "emerald") val emerald: PokemonSpritesEmerald,
+    @SerializedName("firered-leafgreen") @Embedded(prefix = "firered_leafgreen")
     val fireredLeafgreen: PokemonSpritesFRLGRS,
-    @SerializedName("ruby-sapphire")
+    @SerializedName("ruby-sapphire") @Embedded(prefix = "ruby_sapphire")
     val rubySapphire: PokemonSpritesFRLGRS
 )
 
@@ -183,11 +227,11 @@ data class PokemonSpritesFRLGRS(
 )
 
 data class PokemonSpritesGenerationIV(
-    @SerializedName("diamond-pearl")
+    @SerializedName("diamond-pearl") @Embedded(prefix = "diamond_pearl")
     val diamondPearl: PokemonSpritesDPP,
-    @SerializedName("heartgold-soulsilver")
+    @SerializedName("heartgold-soulsilver") @Embedded(prefix = "heartgold_soulsilver")
     val heartgoldSoulsilver: PokemonSpritesHGSS,
-    val platinum: PokemonSpritesDPP
+    @Embedded(prefix = "platinum") val platinum: PokemonSpritesDPP
 )
 
 data class PokemonSpritesDPP(
@@ -213,12 +257,12 @@ data class PokemonSpritesHGSS(
 )
 
 data class PokemonSpritesGenerationV(
-    @SerializedName("black-white")
+    @SerializedName("black-white") @Embedded(prefix = "black_white")
     val blackWhite: PokemonSpritesBW
 )
 
 data class PokemonSpritesBW(
-    val animated: PokemonSpritesBWAnimated,
+    @Embedded(prefix = "animated") val animated: PokemonSpritesBWAnimated,
     val backDefault: String?,
     val backFemale: String?,
     val backShiny: String?,
@@ -241,9 +285,9 @@ data class PokemonSpritesBWAnimated(
 )
 
 data class PokemonSpritesGenerationVI(
-    @SerializedName("omegaruby-alphasapphire")
+    @SerializedName("omegaruby-alphasapphire") @Embedded(prefix = "omegaruby_alphasapphire")
     val omegarubyAlphasapphire: PokemonSpritesORAS,
-    @SerializedName("x-y")
+    @SerializedName("x-y") @Embedded(prefix = "x_y")
     val xY: PokemonSpritesXY
 )
 
@@ -262,8 +306,8 @@ data class PokemonSpritesXY(
 )
 
 data class PokemonSpritesGenerationVII(
-    val icons: PokemonSpritesIcons,
-    @SerializedName("ultra-sun-ultra-moon")
+    @Embedded(prefix = "icons") val icons: PokemonSpritesIcons,
+    @SerializedName("ultra-sun-ultra-moon") @Embedded(prefix = "ultra_sun_ultra_moon")
     val ultraSunUltraMoon: PokemonSpritesUSUM
 )
 
@@ -280,7 +324,16 @@ data class PokemonSpritesUSUM(
 )
 
 data class PokemonSpritesGenerationVIII(
-    val icons: PokemonSpritesIcons,
+    @Embedded(prefix = "icons") val icons: PokemonSpritesIcons,
     val frontDefault: String?,
     val frontFemale: String?,
+)
+
+data class PokemonWithDetails(
+    @Embedded val pokemon: Pokemon,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "pokemonId"
+    )
+    val abilities: List<PokemonAbility>,
 )

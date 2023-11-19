@@ -1,4 +1,4 @@
-package com.example.week11_pokeapi.client
+package com.example.week11_pokeapi.api
 
 import com.example.week11_pokeapi.adapters.ApiResourceAdapter
 import com.example.week11_pokeapi.adapters.NamedApiResourceAdapter

@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.week11_pokeapi.adapters.ItemPokemonAdapter
-import com.example.week11_pokeapi.client.PokeApiClient
+import com.example.week11_pokeapi.api.PokeApiClient
 import com.example.week11_pokeapi.databinding.FragmentPokedexBinding
 import com.example.week11_pokeapi.model.Pokemon
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +37,6 @@ class PokedexFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-
 
         val pokeApiClient = PokeApiClient.getInstance()
 
