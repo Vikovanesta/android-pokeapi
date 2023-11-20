@@ -1,16 +1,26 @@
 package com.example.week11_pokeapi.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "pokemons")
+@Entity(
+    tableName = "pokemons",
+    foreignKeys = [ForeignKey(
+        entity = Team::class,
+        parentColumns = ["id"],
+        childColumns = ["teamId"],
+        onDelete = ForeignKey.CASCADE
+    )]
+)
 data class Pokemon(
     @PrimaryKey val id: Int,
-    val teamId: Int,
+    @ColumnInfo(index = true) val teamId: Int,
     val name: String,
     val baseExperience: Int,
     val order: Int,

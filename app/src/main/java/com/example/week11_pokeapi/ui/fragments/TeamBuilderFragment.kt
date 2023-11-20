@@ -13,15 +13,26 @@ import com.example.week11_pokeapi.database.PokeDatabase
 import com.example.week11_pokeapi.database.TeamDao
 import com.example.week11_pokeapi.databinding.FragmentTeamBuilderBinding
 import com.example.week11_pokeapi.model.Team
+import com.example.week11_pokeapi.ui.fragments.dialog.CreateTeamDialogFragment
 import java.util.concurrent.AbstractExecutorService
 import java.util.concurrent.Executors
 
 class TeamBuilderFragment : Fragment() {
     private var _binding: FragmentTeamBuilderBinding? = null
     private val binding get() = _binding!!
-    private val teamAdapter = ItemTeamAdapter {
-            team -> Toast.makeText(requireContext(), "Yu klik on ${team.name}",
-        Toast.LENGTH_SHORT).show()
+    private val teamAdapter = ItemTeamAdapter { team, action ->
+        when (action) {
+            "delete" -> {
+                delete(team)
+                getAllTeams()
+            }
+            "update" -> {
+                update(team)
+                getAllTeams()
+            }
+            "openNewActivity" -> Toast.makeText(requireContext(), "Yu klik on ${team.name}",
+                Toast.LENGTH_SHORT).show()
+        }
     }
     private lateinit var mTeamDao: TeamDao
     private lateinit var executorService: AbstractExecutorService
@@ -54,10 +65,7 @@ class TeamBuilderFragment : Fragment() {
                     override fun onTeamCreated(name: String, description: String) {
                         val team = Team(name = name, description = description)
                         val id = insert(team)
-
                         getAllTeams()
-
-                        Toast.makeText(requireContext(), "Team $name created", Toast.LENGTH_SHORT).show()
                     }
                 })
                 createTeamDialogFragment.show(childFragmentManager, "create team dialog")
@@ -78,11 +86,11 @@ class TeamBuilderFragment : Fragment() {
     }
 
     private fun insert(team: Team) {
-        Log.d("TeamBuilderFragment", "insert: $team")
         executorService.execute { mTeamDao.insert(team) }
     }
 
     private fun update(team: Team) {
+        Log.d("TeamBuilderFragment", "update: $team")
         executorService.execute { mTeamDao.update(team) }
     }
 
@@ -95,14 +103,5 @@ class TeamBuilderFragment : Fragment() {
             adapter = teamAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TeamBuilderFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }

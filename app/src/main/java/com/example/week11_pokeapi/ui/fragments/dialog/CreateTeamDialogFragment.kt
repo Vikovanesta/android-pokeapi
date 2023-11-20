@@ -1,4 +1,4 @@
-package com.example.week11_pokeapi.ui.fragments
+package com.example.week11_pokeapi.ui.fragments.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
