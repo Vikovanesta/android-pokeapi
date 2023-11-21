@@ -14,6 +14,7 @@ import com.example.week11_pokeapi.database.TeamDao
 import com.example.week11_pokeapi.databinding.FragmentTeamBuilderBinding
 import com.example.week11_pokeapi.model.Team
 import com.example.week11_pokeapi.ui.fragments.dialog.CreateTeamDialogFragment
+import com.example.week11_pokeapi.ui.fragments.dialog.DeleteTeamDialogFragment
 import java.util.concurrent.AbstractExecutorService
 import java.util.concurrent.Executors
 
@@ -32,6 +33,17 @@ class TeamBuilderFragment : Fragment() {
             }
             "openNewActivity" -> Toast.makeText(requireContext(), "Yu klik on ${team.name}",
                 Toast.LENGTH_SHORT).show()
+            "openDeleteDialog" -> {
+                val deleteTeamDialogFragment = DeleteTeamDialogFragment()
+                deleteTeamDialogFragment.setTeamDeletionListener(object :
+                    DeleteTeamDialogFragment.TeamDeletionListener {
+                    override fun onTeamDeleted() {
+                        delete(team)
+                        getAllTeams()
+                    }
+                })
+                deleteTeamDialogFragment.show(childFragmentManager, "delete team dialog")
+            }
         }
     }
     private lateinit var mTeamDao: TeamDao

@@ -55,12 +55,4 @@ class CreateTeamDialogFragment : DialogFragment() {
     fun setTeamCreationListener(listener: TeamCreationListener) {
         teamCreationListener = listener
     }
-
-    companion object {
-        @JvmStatic fun newInstance() =
-                CreateTeamDialogFragment().apply {
-                    arguments = Bundle().apply {
-                    }
-                }
-    }
 }

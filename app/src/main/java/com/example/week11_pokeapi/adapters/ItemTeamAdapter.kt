@@ -44,7 +44,7 @@ class ItemTeamAdapter (private val onClickTeam: OnClickTeam) :
                         viewTextToEditText(txtTeamName, team)
                     }
 
-                    btnDelete.setOnClickListener { onClickTeam(team, "delete") }
+                    btnDelete.setOnClickListener { onClickTeam(team, "openDeleteDialog") }
 
                     for (id in randomPokemonIds) {
                         CoroutineScope(Dispatchers.IO).launch {
