@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     // implement room
     implementation("androidx.room:room-runtime:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
     kapt("androidx.room:room-compiler:2.6.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

@@ -87,9 +87,25 @@ class ItemTeamAdapter (private val onClickTeam: OnClickTeam) :
             }
         }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemTeamViewHolder {
+        val binding = ItemTeamBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        )
+        return ItemTeamViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int {
+        return teamList.size
+    }
+
+    override fun onBindViewHolder(holder: ItemTeamViewHolder, position: Int) {
+        holder.bind(teamList[position])
+    }
+
     private fun viewTextToEditText(txtTeamName: TextView, team: Team) {
-        val textStyle = txtTeamName.typeface
-        val textColors = txtTeamName.textColors
+//        val textStyle = txtTeamName.typeface
+//        val textColors = txtTeamName.textColors
 
         val editText = EditText(txtTeamName.context)
         editText.text = SpannableStringBuilder(txtTeamName.text)
@@ -111,7 +127,6 @@ class ItemTeamAdapter (private val onClickTeam: OnClickTeam) :
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val newTeamName = editText.text.toString()
                 val newTeam = Team(team.id, newTeamName, team.description)
-                Log.d("TeamAdapter", "newTeam: $newTeam")
                 onClickTeam(newTeam, "update")
                 editTextToViewText(editText, txtTeamName)
                 true
@@ -119,13 +134,17 @@ class ItemTeamAdapter (private val onClickTeam: OnClickTeam) :
                 false
             }
         }
-        
+
         editText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
+                val newTeamName = editText.text.toString()
+                val newTeam = Team(team.id, newTeamName, team.description)
+                onClickTeam(newTeam, "update")
                 editTextToViewText(editText, txtTeamName)
             }
         }
     }
+
 
     private fun editTextToViewText(editText: EditText, txtTeamName: TextView) {
         val newText = editText.text.toString()
@@ -139,22 +158,6 @@ class ItemTeamAdapter (private val onClickTeam: OnClickTeam) :
         val index = parent.indexOfChild(editText)
         parent.removeViewAt(index)
         parent.addView(txtTeamName, index, editText.layoutParams)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemTeamViewHolder {
-        val binding = ItemTeamBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false
-        )
-        return ItemTeamViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return teamList.size
-    }
-
-    override fun onBindViewHolder(holder: ItemTeamViewHolder, position: Int) {
-        holder.bind(teamList[position])
     }
 
     fun setTeamList(teamList: List<Team>) {

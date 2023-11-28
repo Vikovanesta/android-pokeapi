@@ -41,7 +41,7 @@ class PokedexFragment : Fragment() {
         val pokeApiClient = PokeApiClient.getInstance()
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val pokemonList = pokeApiClient.getPokemonList(2, 150)
+            val pokemonList = pokeApiClient.getPokemonList(9, 151)
             if (pokemonList.isSuccessful) {
                 val pokemonModels = getPokemonModels(pokemonList.body()!!.results.map { it.id })
                 withContext(Dispatchers.Main) {
